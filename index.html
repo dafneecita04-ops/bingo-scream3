@@ -17,6 +17,18 @@
       --shadow: 0 18px 45px rgba(0,0,0,0.55);
     }
 
+    body[data-mode="gilmore"] { --bg:#1f1a17; --card:#2c2420; --text:#fffaf5; }
+    body[data-mode="scream"] { --bg:#070709; }
+    body[data-mode="supernatural"] { --bg:#0b0f14; }
+    body[data-mode="saw"] { --bg:#0a0a0a; }
+    body[data-mode="glee"] { --bg:#1a0f2b; }
+    body[data-mode="greys"] { --bg:#0f172a; }
+    body[data-mode="from"] { --bg:#0a140a; }
+    body[data-mode="simpsons"] { --bg:#1a1a00; }
+    body[data-mode="tentaciones"] { --bg:#2b0000; }
+    body[data-mode="conquistador"] { --bg:#1a1400; }
+    body[data-mode="toohot"] { --bg:#2b0018; }
+
     * { box-sizing: border-box; }
 
     body {
@@ -341,15 +353,30 @@
 
   <div class="wrap">
     <section class="hero">
-      <div class="badge">Modo slasher activado</div>
-      <h1>Scream 3 Bingo 🔪</h1>
-      <p>
-        Comparte el enlace, abre la página y cada carga te escupe un cartón nuevo. Una sola carta por pantalla, como Dios, Ghostface y GitHub Pages mandan. Marca clichés, giros con peluquín y decisiones que harían llorar a cualquier guionista con pulso.
+      <div class="badge" id="modeBadge">Modo Gilmore activado</div>
+      <h1 id="mainTitle">Gilmore Girls Bingo ☕</h1>
+      <p id="mainDescription">
+        Comparte el enlace, abre la página y cada carga te escupe un cartón nuevo. Cambia entre Scream 3 y Gilmore Girls según te apetezca: cuchillos, café, traumas familiares o todo a la vez.
       </p>
       <div class="toolbar">
         <button class="primary" id="regenBtn">🔄 Generar otro cartón</button>
         <button class="secondary" id="copyLinkBtn">🔗 Copiar enlace</button>
         <button class="secondary" onclick="window.print()">🖨️ Imprimir / PDF</button>
+      </div>
+      <div class="toolbar" style="margin-top:12px;">
+        <select id="modeSelect" class="secondary" style="padding:12px; font-weight:800;">
+          <option value="gilmore">☕ Gilmore Girls</option>
+          <option value="scream">🔪 Scream 3</option>
+          <option value="supernatural">👻 Supernatural</option>
+          <option value="saw">🩸 Saw</option>
+          <option value="glee">🎤 Glee</option>
+          <option value="greys">🏥 Anatomía de Grey</option>
+          <option value="from">🌲 From</option>
+          <option value="simpsons">🍩 Los Simpson</option>
+          <option value="tentaciones">🔥 La Isla de las Tentaciones</option>
+          <option value="conquistador">🪓 El Conquistador</option>
+          <option value="toohot">💋 Jugando con Fuego</option>
+        </select>
       </div>
     </section>
 
@@ -378,59 +405,53 @@
   </div>
 
   <script>
-    const PROMPTS = [
-  'Sale Ghostface',
-  'Llamada con modulador de voz',
-  'El asesino usa varias voces',
-  'Sidney aparece',
-  'Gale aparece',
-  'Dewey aparece',
-  'Jennifer Jolie hace de Gale',
-  'Chiste sobre Stab',
-  'Rodaje de Stab 3',
-  'Escenario de Hollywood',
-  'Casa enorme tipo mansión',
-  'Puerta que no abre',
-  'Alguien se queda solo',
-  'Susto con música fuerte',
-  'Alguien corre y tropieza',
-  'Persecución por pasillos',
-  'Personaje sospechoso',
-  'Sospechan del que no es',
-  'Revelación dramática',
-  'Cara de pánico',
-  'Grito exagerado',
-  'Plano oscuro sin ver nada',
-  'Alguien investiga un ruido',
-  'Objeto usado como arma',
-  'Aparece el productor (Roman)',
-  'Hablan del pasado de Sidney',
-  'Referencia a Scream anteriores',
-  'Entrada sorpresa de alguien',
-  'Momento meta sobre el cine',
-  'Escena en set de película',
-  'Puñalada rápida',
-  'Falsa calma',
-  'El asesino aparece de repente',
-  'Puerta o ventana bloqueada',
-  'Personaje entra donde no debe',
-  'Diálogo explicando cosas',
-  'Silencio antes del susto',
-  'Luz que se apaga o falla',
-  'Alguien desaparece',
-  'Reaparición sorpresa',
-  'Timing perfecto sospechoso',
-  'Plano raro del decorado',
-  'Escena en la casa final',
-  'Todos sospechan de todos',
-  'Giro final',
-  'El asesino habla mucho',
-  'Momento ridículo',
-  'Actuación exagerada',
-  'Mucho drama',
-  'Cliché de peli de terror',
-  'Final con explicación larga'
-    ];
+    const PROMPTS_BY_MODE = {
+  scream: [
+    'Ghostface llama por teléfono','Ghostface aparece detrás de alguien','Sidney contesta una llamada','Gale con cámara','Dewey llega tarde','Rodaje de Stab 3','Set replica de Woodsboro','Jennifer Jolie imita a Gale','Roman sospechoso','Roman revelación','Puerta que no abre','Ventana bloqueada','Persecución en estudio','Persecución en mansión','Susto con música fuerte','Plano oscuro','Personaje solo en casa','Alguien cae al suelo','Puñalada rápida','Grito fuerte','Cara de pánico','Flashback pasado','Referencia a Billy Loomis','Discusión sobre reglas','Asesino habla mucho','Giro final largo','Explicación del plan','Luz se apaga','Alguien desaparece','Reaparición sorpresa','Teléfono suena','Personaje investiga ruido','Todos sospechan de todos','Escena en Hollywood','Final en casa grande'
+  ],
+
+  gilmore: [
+    'Lorelai pide café','Rory con libro','Luke gruñón','Emily crítica elegante','Richard serio','Cena en viernes','Discusión Emily-Lorelai','Lorelai bromea','Referencia pop rápida','Rory estudia','Harvard/Yale','Stars Hollow','Kirk hace algo raro','Taylor molesto','Miss Patty cotillea','Evento del pueblo','Festival raro','Lorelai come basura','Conversación rapidísima','Chiste sarcástico','Luke sirve café','Emily pasivo agresiva','Abrazo madre-hija','Drama familiar','Rory con novio','Lorelai evita problema','Rory duda','Escena acogedora','Escena nocturna','Puerta siempre abierta','Alguien entra sin avisar','Comentario irónico','Luke enfadado','Emily manda indirecta'
+  ],
+
+  supernatural: [
+    'Dean conduce el Impala','Sam investiga en portátil','Dean hace chiste','Aparece demonio','Ojos negros','Exorcismo latino','Sal en puertas','Ritual con velas','Castiel aparece','Castiel serio','Ángel vs demonio','Flashback infancia','Dean bebe whisky','Sam preocupado','Libro antiguo','Cazando fantasma','Cazando vampiro','Arma inútil','Disparo no sirve','Hermandad drama','Sacrificio','Apocalipsis','Infierno mencionado','Cielo mencionado','Dean grita Sam','Sam grita Dean'
+  ],
+
+  saw: [
+    'Trampa mecánica','Cuenta atrás','Sangre','Cadena en pie','Llave escondida','Jigsaw en vídeo','Muñeco en bici','Mensaje grabado','Decisión imposible','Grito largo','Flashback explicativo','Giro final','Plano sucio','Oscuridad','Personaje sufre','Trampa injusta','Alguien falla','Explicación final','Cámara lenta','Música tensa','Puerta cerrada','Candado','Tiempo se acaba','Persona atrapada'
+  ],
+
+  glee: [
+    'Empieza canción','Coreografía grupo','Solo dramático','Canción famosa','Drama adolescente','Profesor habla','Ensayo','Competición','Sueño musical','Vestuario exagerado','Personaje llora','Triángulo amoroso','Miradas intensas','Discurso emotivo','Conflicto','Reconciliación','Número musical random','Baile en pasillo','Escena instituto','Canción triste','Canción alegre'
+  ],
+
+  greys: [
+    'Cirugía','Quirófano','Doctor corre','Paciente crítico','Alguien llora','Monólogo voz en off','Drama romántico','Beso','Discusión','Emergencia','Código azul','Muerte','Recuperación milagro','Relación complicada','Médico grita','Momento triste','Escena lluvia','Hospital lleno','Confesión emocional'
+  ],
+
+  from: [
+    'Bosque misterioso','Criatura aparece','Puerta cerrada noche','Símbolos raros','Personaje perdido','Nadie entiende nada','Gente desaparece','Luces extrañas','Casa aislada','Discusión grupo','Miedo constante','Noche peligrosa','Alguien escucha ruido'
+  ],
+
+  simpsons: [
+    'Homer dice D’oh','Homer come donuts','Bart hace travesura','Lisa inteligente','Marge grita','Gag visual','Chiste rápido','Referencia famosa','Escena absurda','Springfield caos','Personaje secundario','Homer hace tontería','Bart castigado','Lisa moral','Escena ridícula'
+  ],
+
+  tentaciones: [
+    'Hoguera','Tablet muestra vídeo','“Me has fallado”','Lágrimas','Gritos','Discusión fuerte','Celos en directo','Tentador coquetea','Infidelidad confirmada','Reacción exagerada','Silencio incómodo','Miradas tensas','“No te reconozco”','Comparación con otro','Abandono amenaza','Reencuentro incómodo','Confesión delante de todos','Cara de shock','Alguien se levanta','Drama máximo','Frase icónica tipo meme'
+  ],
+
+  conquistador: [
+    'Prueba en barro','Caída al agua','Equilibrio difícil','Salto complicado','Equipo grita','Capitán decide','Discusión estrategia','Alguien se rinde','Esfuerzo extremo','Competición intensa','Rivalidad equipo','Último segundo','Victoria épica','Fracaso total','Alguien lesionado','Grito de motivación','Supervivencia dura','Prueba física brutal','Carrera agotadora','Desafío imposible','Celebración exagerada'
+  ],
+
+  toohot: [
+    'Lana habla','Pierden dinero','Rompen regla','Besos','Celos','Confesión','Drama pareja','Discusión','Reconciliación','Atracción evidente','Nuevo concursante','Miradas intensas','Coqueteo constante','Castigo del grupo','Dinero baja','“No puedo evitarlo”','Promesa rota','Tensión sexual','Reacción exagerada','Regla absurda','Premio en riesgo','Momento incómodo'
+  ]
+};
+
+let currentMode = 'gilmore';
 
     let currentBoard = [];
     let cells = [];
@@ -446,8 +467,9 @@
     }
 
     function makeBoard() {
-      const items = shuffle(PROMPTS).slice(0, 24);
-      return [...items.slice(0, 12), 'FREE 🔪', ...items.slice(12)];
+      const prompts = PROMPTS_BY_MODE[currentMode];
+      const items = shuffle(prompts).slice(0, 24);
+      return [...items.slice(0, 12), 'FREE ✨', ...items.slice(12)];
     }
 
     function copyBoard(board) {
@@ -480,6 +502,41 @@
       return cell;
     }
 
+    function updateModeUI() {
+      document.body.setAttribute('data-mode', currentMode);
+      const badge = document.getElementById('modeBadge');
+      const title = document.getElementById('mainTitle');
+      const desc = document.getElementById('mainDescription');
+      const boardTitle = document.getElementById('boardTitle');
+      const boardDesc = document.getElementById('boardDescription');
+      const screamBtn = document.getElementById('modeSelect').addEventListener('change', (e) => {
+      currentMode = e.target.value;
+      renderBoard();
+    });
+
+      if (currentMode === 'scream') {
+        badge.textContent = 'Modo slasher activado';
+        title.textContent = 'Scream 3 Bingo 🔪';
+        desc.textContent = 'Comparte el enlace, abre la página y cada carga te escupe un cartón nuevo. Cambia entre Scream 3 y Gilmore Girls según te apetezca: cuchillos, café, traumas familiares o todo a la vez.';
+        if (boardTitle) boardTitle.textContent = 'Tu cartón maldito';
+        if (boardDesc) boardDesc.textContent = 'Una sola carta por dispositivo o por recarga. Cambia de universo cuando quieras y genera otra distinta al instante.';
+        screamBtn.style.background = 'linear-gradient(180deg, var(--red2), var(--red))';
+        screamBtn.style.color = 'white';
+        gilmoreBtn.style.background = 'rgba(255,255,255,0.06)';
+        gilmoreBtn.style.color = '#efeff2';
+      } else {
+        badge.textContent = 'Modo Gilmore activado';
+        title.textContent = 'Gilmore Girls Bingo ☕';
+        desc.textContent = 'Comparte el enlace, abre la página y cada carga te da un cartón nuevo. Cambia entre Gilmore Girls y Scream 3 cuando quieras: café, sarcasmo, gritos o caos.';
+        if (boardTitle) boardTitle.textContent = 'Tu cartón cozy';
+        if (boardDesc) boardDesc.textContent = 'Una sola carta por dispositivo o por recarga. Cambia de serie o peli cuando quieras y saca otro cartón al instante.';
+        gilmoreBtn.style.background = 'linear-gradient(180deg, #8b5cf6, #6d28d9)';
+        gilmoreBtn.style.color = 'white';
+        screamBtn.style.background = 'rgba(255,255,255,0.06)';
+        screamBtn.style.color = '#efeff2';
+      }
+    }
+
     function renderBoard() {
       currentBoard = makeBoard();
       cells = [];
@@ -492,8 +549,8 @@
       head.className = 'board-head';
       head.innerHTML = `
         <div>
-          <h2>Tu cartón maldito</h2>
-          <p>Una sola carta por dispositivo o por recarga. Abres el enlace, recibes un destino nuevo. Marca casillas, canta bingo y deja que el teléfono te juzgue.</p>
+          <h2 id="boardTitle">Tu cartón maldito</h2>
+          <p id="boardDescription">Una sola carta por dispositivo o por recarga. Cambia de universo cuando quieras y genera otra distinta al instante.</p>
         </div>
         <div class="mini-actions">
           <button class="mini-btn" id="copyBoardBtn">📋 Copiar cartón</button>
@@ -512,11 +569,15 @@
 
       const tip = document.createElement('div');
       tip.className = 'tip';
-      tip.textContent = 'Pro tip: cada vez que compartas el enlace y se abra, saldrá una carta recién salida del matadero cinéfilo.';
+      tip.textContent = currentMode === 'scream'
+        ? 'Cada vez que compartas el enlace y se abra, saldrá un cartón nuevo de Scream 3.'
+        : 'Cada vez que compartas el enlace y se abra, saldrá un cartón nuevo de Gilmore Girls.';
 
       boardWrap.appendChild(head);
       boardWrap.appendChild(grid);
       boardWrap.appendChild(tip);
+
+      updateModeUI();
 
       document.getElementById('copyBoardBtn').addEventListener('click', () => copyBoard(currentBoard));
       document.getElementById('resetBtn').addEventListener('click', resetBoardMarks);
@@ -552,7 +613,7 @@
       const marked = getMarkedState();
       if (hasWinningLine(marked) && !overlayShownForCurrentWin) {
         overlayShownForCurrentWin = true;
-        playCreepyPhone();
+        playSoundByMode();
         showOverlay();
       }
     }
@@ -569,7 +630,7 @@
       overlay.setAttribute('aria-hidden', 'true');
     }
 
-    function playCreepyPhone() {
+    function playSoundByMode() {
       const AudioContextRef = window.AudioContext || window.webkitAudioContext;
       if (!AudioContextRef) return;
       const ctx = new AudioContextRef();
@@ -577,33 +638,34 @@
 
       const master = ctx.createGain();
       master.gain.setValueAtTime(0.0001, now);
-      master.gain.exponentialRampToValueAtTime(0.15, now + 0.03);
-      master.gain.exponentialRampToValueAtTime(0.0001, now + 2.8);
+      master.gain.exponentialRampToValueAtTime(0.2, now + 0.05);
       master.connect(ctx.destination);
 
-      const scheduleRing = (start, duration = 0.22) => {
-        const osc1 = ctx.createOscillator();
-        const osc2 = ctx.createOscillator();
+      function tone(freq, start, duration) {
+        const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-
-        osc1.type = 'sine';
-        osc2.type = 'triangle';
-        osc1.frequency.setValueAtTime(870, start);
-        osc2.frequency.setValueAtTime(1310, start);
-
+        osc.frequency.setValueAtTime(freq, start);
         gain.gain.setValueAtTime(0.0001, start);
-        gain.gain.exponentialRampToValueAtTime(0.22, start + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.2, start + 0.02);
         gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-
-        osc1.connect(gain);
-        osc2.connect(gain);
+        osc.connect(gain);
         gain.connect(master);
+        osc.start(start);
+        osc.stop(start + duration);
+      }
 
-        osc1.start(start);
-        osc2.start(start);
-        osc1.stop(start + duration + 0.02);
-        osc2.stop(start + duration + 0.02);
-      };
+      if (currentMode === 'scream') {
+        tone(900, now, 0.2); tone(1300, now+0.4, 0.2);
+      } else if (currentMode === 'greys') {
+        tone(1000, now, 0.1); tone(1000, now+0.3, 0.1); tone(1000, now+0.6, 0.1);
+      } else if (currentMode === 'toohot') {
+        tone(600, now, 0.2); tone(800, now+0.2, 0.2); tone(1000, now+0.4, 0.2);
+      } else {
+        tone(700, now, 0.2);
+      }
+
+      setTimeout(()=>ctx.close(),1500);
+    };
 
       scheduleRing(now + 0.05, 0.20);
       scheduleRing(now + 0.45, 0.20);
@@ -617,6 +679,15 @@
     }
 
     document.getElementById('regenBtn').addEventListener('click', renderBoard);
+    document.getElementById('modeScreamBtn').addEventListener('click', () => {
+      currentMode = 'scream';
+      updateModeUI();
+    renderBoard();
+    });
+    document.getElementById('modeGilmoreBtn').addEventListener('click', () => {
+      currentMode = 'gilmore';
+      renderBoard();
+    });
     document.getElementById('copyLinkBtn').addEventListener('click', copyLink);
     document.getElementById('closeOverlayBtn').addEventListener('click', closeOverlay);
     document.getElementById('bingoOverlay').addEventListener('click', (e) => {
@@ -630,3 +701,4 @@
   </script>
 </body>
 </html>
+

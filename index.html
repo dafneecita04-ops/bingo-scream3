@@ -468,7 +468,11 @@ let currentMode = 'gilmore';
 
     function makeBoard() {
       const prompts = PROMPTS_BY_MODE[currentMode];
-      const items = shuffle(prompts).slice(0, 24);
+      if (!prompts || prompts.length === 0) {
+        console.error('No hay prompts para el modo:', currentMode);
+        return Array(25).fill('Error');
+      }
+      const items = shuffle([...prompts]).slice(0, 24);
       return [...items.slice(0, 12), 'FREE ✨', ...items.slice(12)];
     }
 
@@ -538,6 +542,9 @@ let currentMode = 'gilmore';
     }
 
     function renderBoard() {
+      if (!PROMPTS_BY_MODE[currentMode]) {
+        currentMode = 'gilmore';
+      }
       currentBoard = makeBoard();
       cells = [];
       overlayShownForCurrentWin = false;
@@ -701,4 +708,5 @@ let currentMode = 'gilmore';
   </script>
 </body>
 </html>
+
 

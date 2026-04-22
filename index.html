@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Scream 3 Bingo</title>
-  <meta name="description" content="Generador de cartones de bingo para Scream 3. Un cartón distinto cada vez, modo slasher activado." />
+  <meta name="description" content="Generador de cartones de bingo. Un cartón distinto cada vez, modo slasher activado." />
   <style>
     :root {
       --bg: #070709;
@@ -453,6 +453,14 @@
 
 let currentMode = 'gilmore';
 
+// FIX inicial: sincronizar selector con modo y evitar pantalla vacía
+window.addEventListener('DOMContentLoaded', () => {
+  const select = document.getElementById('modeSelect');
+  if (select) {
+    select.value = currentMode;
+  }
+});
+
     let currentBoard = [];
     let cells = [];
     let overlayShownForCurrentWin = false;
@@ -542,6 +550,11 @@ let currentMode = 'gilmore';
     }
 
     function renderBoard() {
+      const select = document.getElementById('modeSelect');
+      if (select && !PROMPTS_BY_MODE[currentMode]) {
+        currentMode = select.value || 'gilmore';
+      }
+      console.log('Render con modo:', currentMode);
       if (!PROMPTS_BY_MODE[currentMode]) {
         currentMode = 'gilmore';
       }
@@ -708,5 +721,6 @@ let currentMode = 'gilmore';
   </script>
 </body>
 </html>
+
 
 
